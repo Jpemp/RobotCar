@@ -1,13 +1,16 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-// put function declarations here:
+#include <cstdint>
 
-//AudioResponse() //Signal recieved from Raspberry Pi
+// put function declarations here:
+byte readSPI(void);
+void audioResponse(); //Signal recieved from Raspberry Pi
 //turnLeft()
 //turnRight()
 //goForward()
 //goBackward()
+//carStop()
 
 
 //variable declaration for SPI communication
@@ -41,10 +44,27 @@ void setup() {
 }
 
 void loop() {
+  if(digitalRead(CIPO) == HIGH){ //If a message is recieved from Raspberry Pi peripheral in SPI
+    byte readByte;
 
+  }
 }
 
 // put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void audioResponse(void){
+  char RPmessage;
+  switch(RPmessage){
+    case 'l':
+    case 'r':
+    case 'u':
+    case 'd':
+    default:
+    
+  }
+}
+
+byte readSPI(void){
+  byte message[256];
+
+  return 0x0;
 }
