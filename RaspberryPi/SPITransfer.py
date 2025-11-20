@@ -1,3 +1,10 @@
+import time
+import spidev
+
+
+#functions to write
+
+
 #SPI bus number
 SPI_bus = 0
 
@@ -8,11 +15,11 @@ CS_pin = 1
 spi = spidev.SpiDev()
 
 #opens connection to bus and peripheral
-spi.open(bus, CS_pin)
+spi.open(SPI_bus, CS_pin)
 
 spi.max_speed_hz = 10000
 spi.mode = 0
 
-message = "Hello World! This is the Raspberry Pi!"
+message = "Hello World! This is the Raspberry Pi!".encode()
 
-spi.xfer(message)
+spi.writebytes(message) #message send function
