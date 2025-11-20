@@ -2,10 +2,11 @@
 #include <SPI.h>
 
 #include <cstdint>
+#include <iostream>
 
 // put function declarations here:
-byte readSPI(void);
-void audioResponse(); //Signal recieved from Raspberry Pi
+char* readSPI(void);
+void audioResponse(char*); //Signal recieved from Raspberry Pi
 //turnLeft()
 //turnRight()
 //goForward()
@@ -45,26 +46,36 @@ void setup() {
 
 void loop() {
   if(digitalRead(CIPO) == HIGH){ //If a message is recieved from Raspberry Pi peripheral in SPI
-    byte readByte;
-
+    char* input_message;
+    input_message = readSPI();
+    audioResponse(input_message);
+    delete[] input_message;
   }
+  
+  delay(100);
 }
 
 // put function definitions here:
-void audioResponse(void){
-  char RPmessage;
-  switch(RPmessage){
-    case 'l':
-    case 'r':
-    case 'u':
-    case 'd':
-    default:
-    
-  }
+void audioResponse(char* RPmessage){
+  int message_length = sizeof(RPmessage)/sizeof(*RPmessage);
+
 }
 
-byte readSPI(void){
-  byte message[256];
+char* readSPI(void){
+  digitalWrite(CS, LOW); //Selects peripheral to communicate with, which is the Raspberry Pi
 
-  return 0x0;
+  //SPI.beginTransaction(SPISettings(());
+
+  byte byteNum = SPI.transfer(0x00); //Raspberry Pi sends a message that tells us how long the message will be
+
+  int message_length =  (int)byteNum;
+  char message[message_length];
+
+  for(int i=0; i<message_length; i++){
+    std::cout << "Hello World!" << std::endl;
+  }
+
+  //byte readByte = SPI.transfer(0x00); //Storing the message from the Raspberry Pi in this readByte variable
+  digitalWrite(CS, HIGH); //Deselects Raspberry Pi for SPI communication
+  return message;
 }
