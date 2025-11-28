@@ -1,12 +1,22 @@
 import torch
-from transformers import Speech2TextProcessor
-from datasets import load_dataset
 import torchaudio
-
 from torchaudio.utils import _download_asset
+import sounddevice as sd
+from scipy.io.wavfile import write
 
 torch.random.manual_seed(0) #change to test reliability of model and debug. This changes the rng of PyTorch functions
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+my_recording = sd.rec(10, samplerate=16000, channels=2) #starts recorder to run for 10 seconds at 16kHz (matches ASR model)
+#figure out number of channels and available audio devices
+
+print(sd.query_devices()) #use this to figure out input audio setup
+
+sd.wait() #waits for 10 seconds to record audio before proceeding
+
+write("mic_input.wav", 16000, my_recording) #creates 16kHz .wav file from microphone audio
+
+#might not need to use .wav files for wav2vec model. Must test this to find out
 
 sample = _download_asset("tutorial-assets/Lab41-SRI-VOiCES-src-sp0307-ch127535-sg0042.wav") #test sample
 
