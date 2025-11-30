@@ -14,6 +14,12 @@ int RIGHT = 33;
 //Switch between voice control and button control
 int CSWITCH = 21;
 
+//Microphone for voice control
+int MIC = 25; //A1
+
+//Speed Changer for the Car? Extra feature if there is time
+int SPEEDPWM = 34; //A2
+
 uint8_t recieverAddress[]; //macAddress for the Car ESP32 (reciever)
 esp_now_peer_info_t peerInfo; //information about the reciever ESP32
 
@@ -28,6 +34,10 @@ void setup() {
   pinMode(LEFT, INPUT);
   pinMode(RIGHT, INPUT); 
   pinMode(CSWITCH, INPUT);
+  pinMode(MIC, INPUT);
+  pinMode(SPEEDPWM, INPUT);
+  
+  
 
   Serial.begin(115200);
   WiFi.mode(WIFI_STA); //setting the ESP32 as a Wi-Fi station
@@ -65,6 +75,18 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if(digitalRead(CSWITCH) == LOW){
+    int speedVal;
+    speedVal = analogRead(SpeedPWM);
+  }
+  else{
+    
+  }
+  
+
+  
+  
+  
   char* data = "Hello World!";
   esp_err_t result = esp_now_send(recieverAddress, (uint8_t*) &data, sizeof(data));
 
