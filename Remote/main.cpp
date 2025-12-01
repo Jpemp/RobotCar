@@ -77,8 +77,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if(digitalRead(CSWITCH) == LOW){
-    micFlag=false;
-    flagCheck(micFlag, sendFlag);
+    flagCheck(micFlag);
     speedVal = analogRead(SpeedPWM);
     movement();
 
@@ -128,12 +127,4 @@ void movement(void){
 }
 
 void flagCheck(bool flag, bool state){
-  if (flag==true){
-    if (state==false){
-    }
-  }
-  else{
-    if (state==false){
-    }
-  }
 }
