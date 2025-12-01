@@ -18,13 +18,14 @@ int CSWITCH = 21;
 int SPEEDPWM = 34; //A2
 
 bool micFlag = false;
+bool sendFlag = false;
 uint8_t recieverAddress[]; //macAddress for the Car ESP32 (reciever)
 esp_now_peer_info_t peerInfo; //information about the reciever ESP32
 
 // put function declarations here:
 void movement(void);
 void OnDataSent(esp_now_send_status_t);
-void flagCheck(bool, int);
+void flagCheck(bool, bool);
 
 
 void setup() {
@@ -76,13 +77,15 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if(digitalRead(CSWITCH) == LOW){
-    flagCheck(micFlag, 0);
+    micFlag=false;
+    flagCheck(micFlag, sendFlag);
     speedVal = analogRead(SpeedPWM);
     movement();
 
   }
   else{
-    flagCheck(micFlag, 1);
+    micFlag=true;
+    flagCheck(micFlag, sendFlag);
     
   }
   
@@ -124,4 +127,13 @@ void movement(void){
   }
 }
 
-void flagCheck(bool flag, int state);
+void flagCheck(bool flag, bool state){
+  if (flag==true){
+    if (state==false){
+    }
+  }
+  else{
+    if (state==false){
+    }
+  }
+}
