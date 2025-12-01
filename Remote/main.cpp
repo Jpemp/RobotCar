@@ -6,16 +6,13 @@
 #include <iostream>
 
 //Button Control GPIO pins
-int UP = 13;
-int DOWN = 12;
-int LEFT = 27;
-int RIGHT = 33;
+const int UP = 13;
+const int DOWN = 12;
+const int LEFT = 27;
+const int RIGHT = 33;
 
 //Switch between voice control and button control
 int CSWITCH = 21;
-
-//Microphone for voice control
-int MIC = 25; //A1
 
 //Speed Changer for the Car? Extra feature if there is time
 int SPEEDPWM = 34; //A2
@@ -76,8 +73,17 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if(digitalRead(CSWITCH) == LOW){
-    int speedVal;
     speedVal = analogRead(SpeedPWM);
+
+    if((digitalRead(UP) == HIGH) && (digitalRead(DOWN) == LOW)){
+    }
+    if((digitalRead(DOWN) == HIGH) && (digitalRead(UP) == LOW)){
+    }
+    if((digitalRead(RIGHT) == HIGH) && (digitalRead(LEFT) == LOW)){
+    }
+    if((digitalRead(LEFT) == HIGH) && (digitalRead(RIGHT) == LOW)){
+    }
+
   }
   else{
     
