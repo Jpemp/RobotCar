@@ -17,12 +17,15 @@ int CSWITCH = 21;
 //Speed Changer for the Car? Extra feature if there is time
 int SPEEDPWM = 34; //A2
 
+bool micFlag = false;
 uint8_t recieverAddress[]; //macAddress for the Car ESP32 (reciever)
 esp_now_peer_info_t peerInfo; //information about the reciever ESP32
 
 // put function declarations here:
-int movement();
+void movement(void);
 void OnDataSent(esp_now_send_status_t);
+void flagCheck(bool, int);
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -73,19 +76,13 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if(digitalRead(CSWITCH) == LOW){
+    flagCheck(micFlag, 0);
     speedVal = analogRead(SpeedPWM);
-
-    if((digitalRead(UP) == HIGH) && (digitalRead(DOWN) == LOW)){
-    }
-    if((digitalRead(DOWN) == HIGH) && (digitalRead(UP) == LOW)){
-    }
-    if((digitalRead(RIGHT) == HIGH) && (digitalRead(LEFT) == LOW)){
-    }
-    if((digitalRead(LEFT) == HIGH) && (digitalRead(RIGHT) == LOW)){
-    }
+    movement();
 
   }
   else{
+    flagCheck(micFlag, 1);
     
   }
   
@@ -115,3 +112,16 @@ void OnDataSent(esp_now_send_status_t status){
     Serial.println("Failure");
   }
 }
+
+void movement(void){
+  if((digitalRead(UP) == HIGH) && (digitalRead(DOWN) == LOW)){
+  }
+  if((digitalRead(DOWN) == HIGH) && (digitalRead(UP) == LOW)){
+  }
+  if((digitalRead(RIGHT) == HIGH) && (digitalRead(LEFT) == LOW)){
+  }
+  if((digitalRead(LEFT) == HIGH) && (digitalRead(RIGHT) == LOW)){
+  }
+}
+
+void flagCheck(bool flag, int state);
