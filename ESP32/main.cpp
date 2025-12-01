@@ -26,6 +26,8 @@ const int SW2 = D3;
 const int SW3 = D4;
 const int SW4 = D5;
 
+//variable declaration for turning servo
+const int SERVO = D7;
 
 void setup() {
   //pin setup as either input or output
@@ -38,6 +40,8 @@ void setup() {
   pinMode(SW2, OUTPUT);
   pinMode(SW3, OUTPUT);
   pinMode(SW4, OUTPUT);
+
+  pinMode(SERVO, OUTPUT);
 
   SPI.begin(); //starts SPI communication
   //Set CS LOW to select peripheral to communicate with and HIGH to de-select and stop communicating
