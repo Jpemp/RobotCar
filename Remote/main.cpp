@@ -82,7 +82,7 @@ void loop() {
   control_message.turnPot = analogRead (STEER); //value from the steering potentiometer is stored here
   control_message.controlSwitch = digitalRead(CSWITCH); //tells if the car esp32 should listen to the remote or audio processor
   
-  esp_err_t result = esp_now_send(recieverAddress, (uint8_t*) &control_message, sizeof(message));
+  esp_err_t result = esp_now_send(recieverAddress, (uint8_t*) &control_message, sizeof(message)); //data sent to reciever
      
   if(result != ESP_OK){
     Serial.println("Error sending data");
