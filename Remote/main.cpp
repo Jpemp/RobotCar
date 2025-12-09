@@ -6,37 +6,36 @@
 #include <iostream>
 
 //Button Control GPIO pins
-const int UP = 13;
-const int DOWN = 12;
-const int LEFT = 27;
-const int RIGHT = 33;
+const int DRIVE = 26;
+const int STEER = 25;
 
 //Switch between voice control and button control
-int CSWITCH = 21;
+const int CSWITCH = 14;
 
-//Speed Changer for the Car? Extra feature if there is time
-int SPEEDPWM = 34; //A2
+typedef struct message {
+  int speedPot;
+  int turnPot;
+  bool controlSwitch;
+} message;
+
+message control_message;
 
 bool micFlag = false;
 bool sendFlag = false;
 uint8_t recieverAddress[]; //macAddress for the Car ESP32 (reciever)
-esp_now_peer_info_t peerInfo; //information about the reciever ESP32
+esp_now_peer_info_t peerInfo; //information about the car (reciever) ESP32
 
 // put function declarations here:
 void movement(void);
-void OnDataSent(esp_now_send_status_t);
-void flagCheck(bool, bool);
+void OnDataSent(const uint8_t*, esp_now_send_status_t);
 
 
-void setup() {
-  // put your setup code here, to run once:
-  pinMode(UP, INPUT); //establishing control pins
-  pinMode(DOWN, INPUT); 
-  pinMode(LEFT, INPUT);
-  pinMode(RIGHT, INPUT); 
+
+void setup() { //runs once
+  //GPIO pin setup
+  pinMode(DRIVE, INPUT); 
+  pinMode(STEER, INPUT);
   pinMode(CSWITCH, INPUT);
-  pinMode(MIC, INPUT);
-  pinMode(SPEEDPWM, INPUT);
   
   
 
@@ -56,56 +55,47 @@ void setup() {
     Serial.println("ESP-NOW successfully initialized!");
   }
 
-  esp_now_register_send_cb(OnDataSent); //a callback function to indicate when data is sent to Car ESP32
+  esp_now_register_send_cb(esp_now_send_cb_t(OnDataSent)); //a callback function to indicate when data is sent to Car ESP32
 
   //setting up peer/reciever info
   memcpy(peerInfo.peer_addr, recieverAddress, 6);
   peerInfo.channel = 0;
   peerInfo.encrypt = false;
 
-  if(esp_now_add_peer(&peerInfo) != ESP_OK){
+  if(esp_now_add_peer(&peerInfo) != ESP_OK){ //connects to reciever peer
     Serial.println("Failed to pair with peer");
     return;
   }
   else{
-    Serial.println("Peer has been paired!");
+    Serial.println("Paired with peer!");
   }
-
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(digitalRead(CSWITCH) == LOW){
-    flagCheck(micFlag);
-    speedVal = analogRead(SpeedPWM);
-    movement();
 
-  }
-  else{
-    micFlag=true;
-    flagCheck(micFlag, sendFlag);
-    
-  }
-  
 
-  
-  
-  
-  char* data = "Hello World!";
-  esp_err_t result = esp_now_send(recieverAddress, (uint8_t*) &data, sizeof(data));
+  //Data from potentiometers and switch
 
+  control_message.speedPot = analogRead(DRIVE); //value from the drive potentiometer is stored here
+  control_message.turnPot = analogRead (STEER); //value from the steering potentiometer is stored here
+  control_message.controlSwitch = digitalRead(CSWITCH); //tells if the car esp32 should listen to the remote or audio processor
+  
+  esp_err_t result = esp_now_send(recieverAddress, (uint8_t*) &control_message, sizeof(message));
+     
   if(result != ESP_OK){
     Serial.println("Error sending data");
   }
   else{
     Serial.println("Data successfully sent!");
   }
-  delay(5000);
+
+  delay(1000);
 }
 
 // put function definitions here:
-void OnDataSent(esp_now_send_status_t status){
+void OnDataSent(const uint8_t *mac, esp_now_send_status_t status){
   Serial.print("Packet Sent Status: ");
   if(status == ESP_NOW_SEND_SUCCESS){
     Serial.println("Success");
@@ -115,16 +105,4 @@ void OnDataSent(esp_now_send_status_t status){
   }
 }
 
-void movement(void){
-  if((digitalRead(UP) == HIGH) && (digitalRead(DOWN) == LOW)){
-  }
-  if((digitalRead(DOWN) == HIGH) && (digitalRead(UP) == LOW)){
-  }
-  if((digitalRead(RIGHT) == HIGH) && (digitalRead(LEFT) == LOW)){
-  }
-  if((digitalRead(LEFT) == HIGH) && (digitalRead(RIGHT) == LOW)){
-  }
-}
 
-void flagCheck(bool flag, bool state){
-}
