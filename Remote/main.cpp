@@ -5,14 +5,14 @@
 
 #include <iostream>
 
-//Button Control GPIO pins
+//Potentiometer control GPIO pins
 const int DRIVE = 26;
 const int STEER = 25;
 
-//Switch between voice control and button control
+//Switch between voice control and manual control
 const int CSWITCH = 14;
 
-typedef struct message {
+typedef struct message { //data to send to car ESP32 stored in this struct
   int speedPot;
   int turnPot;
   bool controlSwitch;
@@ -20,26 +20,20 @@ typedef struct message {
 
 message control_message;
 
-bool micFlag = false;
-bool sendFlag = false;
-uint8_t recieverAddress[]; //macAddress for the Car ESP32 (reciever)
+uint8_t recieverAddress[]; //macAddress for the Car ESP32 (reciever). Still needs to be stored here
 esp_now_peer_info_t peerInfo; //information about the car (reciever) ESP32
 
 // put function declarations here:
-void movement(void);
-void OnDataSent(const uint8_t*, esp_now_send_status_t);
-
-
+void OnDataSent(const uint8_t*, esp_now_send_status_t); //callback function that runs when data is sent via ESP-NOW communication
 
 void setup() { //runs once
   //GPIO pin setup
   pinMode(DRIVE, INPUT); 
   pinMode(STEER, INPUT);
   pinMode(CSWITCH, INPUT);
-  
-  
 
-  Serial.begin(115200);
+  Serial.begin(115200); //for printing stuff to terminal
+
   WiFi.mode(WIFI_STA); //setting the ESP32 as a Wi-Fi station
 
   /*uint8_t mac[6]; //only need this part to get the MAC address of the ESP32s
@@ -72,12 +66,10 @@ void setup() { //runs once
 
 }
 
-void loop() {
+void loop() { //runs infinitely
   // put your main code here, to run repeatedly:
 
-
   //Data from potentiometers and switch
-
   control_message.speedPot = analogRead(DRIVE); //value from the drive potentiometer is stored here
   control_message.turnPot = analogRead (STEER); //value from the steering potentiometer is stored here
   control_message.controlSwitch = digitalRead(CSWITCH); //tells if the car esp32 should listen to the remote or audio processor
@@ -91,12 +83,12 @@ void loop() {
     Serial.println("Data successfully sent!");
   }
 
-  delay(1000);
+  delay(100);
 }
 
 // put function definitions here:
 void OnDataSent(const uint8_t *mac, esp_now_send_status_t status){
-  Serial.print("Packet Sent Status: ");
+  Serial.print("Data Sent Status: ");
   if(status == ESP_NOW_SEND_SUCCESS){
     Serial.println("Success");
   }
@@ -104,5 +96,3 @@ void OnDataSent(const uint8_t *mac, esp_now_send_status_t status){
     Serial.println("Failure");
   }
 }
-
-
