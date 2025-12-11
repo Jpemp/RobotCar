@@ -1,8 +1,20 @@
 <robot name="car">
   <link name="body">
+    <visual>
+      <geometry>
+        <box size="6 2 2"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
   </link>
 
   <link name="steer_axle">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="6"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
   </link>
   
   <joint name = "steer_axle_to_car">
@@ -36,6 +48,12 @@
   </joint>
 
   <link name="drive_axle">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="6"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
   </link>
 
   <joint name = "drive_axle_to_car">
