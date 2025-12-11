@@ -3,7 +3,6 @@
     <visual>
       <geometry>
         <box size="6 2 2"/>
-        <origin rpy="0 1.570796 0"/>
       </geometry>
     </visual>
   </link>
