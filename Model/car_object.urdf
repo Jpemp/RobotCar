@@ -12,13 +12,24 @@
   </link>
 
   <link name="fr_wheel">
-  
+    <visual>
+      <geometry>
+        <cylinder radius="2" length="1"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
   </link>
   
   <joint name = "fr_wheel_to_steer_axle">
   </joint>
   
   <link name="fl_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="2" length="1"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
   </link>
 
   <joint name = "fl_wheel_to_steer_axle">
@@ -31,11 +42,24 @@
   </joint>
 
   <link name="br_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="2" length="1"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
   </link>
 
   <joint name ="br_wheel_to_drive_axle">
   </joint>
   
-  <link name="bl_wheel_to_drive_axle">
+  <link name="bl_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="2" length="1"/>
+        <origin rpy="0 1.570796 0"/>
+      </geometry>
+    </visual>
+
   </link>
 </robot>
