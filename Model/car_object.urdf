@@ -17,7 +17,9 @@
     </visual>
   </link>
   
-  <joint name = "steer_axle_to_car">
+  <joint name = "steer_axle_to_car" type="continuous">
+    <parent link=""/>
+    <child link=""/>
   </joint>
 
   <link name="steer_pivot">
@@ -32,7 +34,9 @@
     </visual>
   </link>
   
-  <joint name = "fr_wheel_to_steer_axle">
+  <joint name = "fr_wheel_to_steer_axle" type="continuous">
+    <parent link=""/>
+    <child link=""/>
   </joint>
   
   <link name="fl_wheel">
@@ -44,7 +48,9 @@
     </visual>
   </link>
 
-  <joint name = "fl_wheel_to_steer_axle">
+  <joint name = "fl_wheel_to_steer_axle" type="continuous">
+    <parent link=""/>
+    <child link=""/>
   </joint>
 
   <link name="drive_axle">
@@ -56,7 +62,9 @@
     </visual>
   </link>
 
-  <joint name = "drive_axle_to_car">
+  <joint name = "drive_axle_to_car" type="continuous">
+    <parent link=""/>
+    <child link=""/>
   </joint>
 
   <link name="br_wheel">
@@ -68,7 +76,9 @@
     </visual>
   </link>
 
-  <joint name ="br_wheel_to_drive_axle">
+  <joint name ="br_wheel_to_drive_axle" type="continuous">
+    <parent link=""/>
+    <child link=""/>
   </joint>
   
   <link name="bl_wheel">
@@ -78,6 +88,11 @@
         <origin rpy="0 1.570796 0"/>
       </geometry>
     </visual>
-
   </link>
+
+  <joint name ="bl_wheel_to_drive_axle" type="continuous">
+    <parent link=""/>
+    <child link=""/>
+  </joint>
+
 </robot>
