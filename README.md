@@ -6,4 +6,4 @@ Remote folder -- Code for remote control of car
 
 RaspberryPi folder -- Code for automatic speech recognition and communication with car control
 
-Model folder -- Code for URDF car model and Gazebo simulations
+Model folder -- Code for URDF car model and Gazebo simulation files
