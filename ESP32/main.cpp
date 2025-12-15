@@ -241,7 +241,7 @@ void manual_control(void){
   //Pot goes from 0-4095 in analog value
   //Analog write goes from 0-255 in value
   control_message.speedPot = recieved_message.speedPot/8; //translating the pot value to be used for analogWrite (0-255)
-  control_message.turnPot = recieved_message.turnPot/8; //translating the pot value to be used for analogWrite (0-255)
+  control_message.turnPot = recieved_message.turnPot/16; //translating the pot value to be used for analogWrite (0-255)
 
   if((control_message.speedPot) == 255){ //doesn't drive
     analogWrite(SW1, 0);
